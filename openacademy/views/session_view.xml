@@ -1,0 +1,70 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="tree_view_openacadmy_session">
+            <field name="name">Session</field>
+            <field name="model">openacademy.session</field>
+            <field name="arch" type="xml">
+                <tree string="Open Accadmey session">
+                    <field name="start_date"/>
+                    <field name="duration"/>
+                    <field name="no_of_seats"/>
+                    <field name="instructor"/>
+                    <field name="course_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <!--      form-->
+        <record model="ir.ui.view" id="form_view_openacadmy_session">
+            <field name="name">Session</field>
+            <field name="model">openacademy.session</field>
+            <field name="arch" type="xml">
+                <form string="Session">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="start_date"/>
+                                <field name="duration"/>
+                            </group>
+                            <group>
+                                <field name="no_of_seats"/>
+                                <field name="instructor"/>
+                                <field name="course_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!--        <record id="view_search_openacademy_session" model="ir.ui.view">-->
+        <!--            <field name="name">openacademy.session.search</field>-->
+        <!--            <field name="model">openacademy.session</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <search>-->
+        <!--                    <field name="name"/>-->
+        <!--                    <field name="description"/>-->
+        <!--                </search>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+
+        <record model="ir.actions.act_window" id="action_openacademy_session">
+            <field name="name">Session</field>
+            <field name="res_model">openacademy.session</field>
+            <field name="view_id" ref="tree_view_openacadmy_session"/>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your Session
+                </p>
+            </field>
+        </record>
+
+
+        <menuitem id="menu_session_root" name="Session" action="action_openacademy_session" sequence="10"
+                  parent="menu_openacademy_root"/>
+    </data>
+</odoo>
