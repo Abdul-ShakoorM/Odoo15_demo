@@ -1,0 +1,25 @@
+<odoo>
+    <report
+            id="report_patient_card_action"
+            string="Patient Card"
+            model="hospital.patient"
+            report_type="qweb-pdf"
+            name="demo_odoo15.report_patient_card"
+            file="demo_odoo15.report_patient_card"/>
+
+    <report
+            id="report_patient_detail_action"
+            string="Patient Detail"
+            model="hospital.patient"
+            report_type="qweb-pdf"
+            name="demo_odoo15.report_patient_detail"
+            file="demo_odoo15demo_odoo15.report_patient_detail"/>
+    <!--    <report-->
+    <!--            id="monthly_report_footer"-->
+    <!--            string="Custom Footer"-->
+    <!--            model="hospital.patient"-->
+    <!--            report_type="qweb-pdf"-->
+    <!--            name="demo_odoo15.monthly_report_footer"-->
+    <!--            file="demo_odoo15.monthly_report_footer"/>-->
+
+</odoo>

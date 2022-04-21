@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <!--    Kanban View-->
+    <record id="view_doctor_kanban" model="ir.ui.view">
+        <field name="name">hospital.doctor.kanban</field>
+        <field name="model">hospital.doctor</field>
+        <field name="arch" type="xml">
+            <kanban sample="1" default_order="reference asc">
+                <field name="id"/>
+                <field name="doctor_name"/>
+                <field name="gender"/>
+                <field name="age"/>
+                <field name="note"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <ul>
+                                    <li>
+                                        ID:
+                                        <field name="reference"/>
+                                    </li>
+                                    <li>
+                                        Name:
+                                        <field name="doctor_name"/>
+                                    </li>
+                                    <li>
+                                        Age:
+                                        <field name="age"/>
+                                    </li>
+                                    <li>
+                                        Gender:
+                                        <field name="gender"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!--    Tree View -->
+    <record id="view_doctor_tree" model="ir.ui.view">
+        <field name="name">hospital.doctor.tree</field>
+        <field name="model">hospital.doctor</field>
+        <field name="arch" type="xml">
+            <tree sample="1" multi_edit="1" expand="1">
+                <field name="reference" optional="show"/>
+                <field name="doctor_name" optional="show"/>
+                <field name="gender" optional="show"/>
+                <field name="age" optional="show"/>
+                <field name="note" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View-->
+    <record id="view_doctor_form" model="ir.ui.view">
+        <field name="name">hospital.doctor.form</field>
+        <field name="model">hospital.doctor</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                            attrs="{'invisible': [('active', '=', True)]}"/>
+
+                    <div class="oe_button_box" name="button_box">
+                        <button name="open_doctor_appointments" class="oe_stat_button" type="object"
+                                icon="fa-calendar">
+                            <field string="Appointments" name="appointment_count" widget="statinfo"/>
+                        </button>
+                    </div>
+
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <!--                    Sequence Number-->
+                    <div class="oe_title">
+                        <h1>
+                            <field name="reference" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="doctor_name"/>
+                            <field name="age"/>
+                        </group>
+                        <group>
+                            <field name="gender" invisible="context.get('hide_gender')"/>
+                            <field name="note"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--Action-->
+    <record id="action_hospital_doctor" model="ir.actions.act_window">
+        <field name="name">Doctors</field>
+        <field name="res_model">hospital.doctor</field>
+        <field name="view_id" ref="view_doctor_tree"/>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                create your first doctor!
+            </p>
+        </field>
+    </record>
+    <!--Menu and Submenu-->
+    <menuitem
+            id="menu_doctor_root"
+            parent="menu_hospital_root"
+            name="Doctors"
+            sequence="10"
+    />
+    <menuitem
+            id="menu_doctor"
+            name="Doctors"
+            parent="menu_doctor_root"
+            action="action_hospital_doctor"
+            sequence="10"
+    />
+</odoo>

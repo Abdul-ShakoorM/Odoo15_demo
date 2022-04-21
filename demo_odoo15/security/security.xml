@@ -1,0 +1,7 @@
+<odoo>
+    <record id="patient_record_rule" model="ir.rule">
+        <field name="name">See only his patient</field>
+        <field name="model_id" ref="model_hospital_patient"/>
+        <field name="domain_force">[('gender','=','male')]</field>
+    </record>
+</odoo>

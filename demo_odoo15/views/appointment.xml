@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    Action Server-->
+    <record model="ir.actions.server" id="action_confirm_appointments">
+        <field name="name">Confirm Appointments</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="model_hospital_appointment"/>
+        <field name="binding_model_id" ref="model_hospital_appointment"/>
+        <field name="state">code</field>
+        <field name="code">action = records.action_confirm()</field>
+    </record>
+
+
+    <!--    Tree View -->
+    <record id="view_appointment_tree" model="ir.ui.view">
+        <field name="name">hospital.appointment.tree</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <tree sample="1" multi_edit="1" expand="1">
+                <header>
+                    <button name="action_done" string="Mark As Done" type="object"
+                            class="btn-primary"/>
+                </header>
+                <field name="reference" optional="show"/>
+                <field name="patient_id" optional="show"/>
+                <field name="doctor_id" optional="show"/>
+                <field name="age" optional="show"/>
+                <field name="gender" optional="show"/>
+                <field name="note" optional="hide"/>
+                <field name="appointment_date" optional="hide"/>
+                <field name="checkup_date" optional="hide"/>
+                <field name="state" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View-->
+    <record id="view_appointment_form" model="ir.ui.view">
+        <field name="name">hospital.appointment.form</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button id="button_confirm" name="action_confirm" string="Confirm" type="object"
+                            class="btn-primary" states="draft" confirm="Are you sure you need to confirm ?"/>
+                    <button id="button_done" name="action_done" string="Mark As Done" type="object"
+                            class="btn-primary" states="confirm"/>
+                    <button id="button_draft" name="action_draft" string="Set To Draft" type="object"
+                            class="btn-primary" states="cancel"/>
+                    <button id="button_cancel" name="action_cancel" string="Cancel" type="object"
+                            states="draft,confirm,done" confirm="Are you sure you need to cancel ?"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,confirm,done"/>
+                </header>
+                <sheet>
+                    <!--                    Sequence Number-->
+                    <div class="oe_title">
+                        <h1>
+                            <field name="reference" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="patient_id"/>
+                            <field name="doctor_id"/>
+                            <field name="age" readonly="1"/>
+                            <field name="gender" readonly="1" force_save="1"/>
+                        </group>
+                        <group>
+                            <field name="appointment_date"/>
+                            <field name="checkup_date"/>
+                            <field name="note" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Doctor Prescription" name="doctor_prescription">
+                            <group>
+                                <field name="prescription"/>
+                            </group>
+                        </page>
+                        <page string="Medicine" name="medicine">
+                            <field name="prescription_line_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="qty"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="name"/>
+                                        </group>
+                                        <group>
+                                            <field name="qty"/>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Other Info" name="other_info">
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!--Action-->
+    <record id="action_hospital_appointment" model="ir.actions.act_window">
+        <field name="name">Appointments</field>
+        <field name="res_model">hospital.appointment</field>
+        <field name="view_id" ref="view_appointment_tree"/>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                create your first appointment!
+            </p>
+        </field>
+    </record>
+    <!--Menu and Submenu-->
+    <menuitem id="menu_appointment_root" name="Appointments" parent="menu_hospital_root" sequence="10"/>
+    <menuitem id="menu_appointment" name="Appointment" action="action_hospital_appointment" sequence="10"
+              parent="menu_appointment_root"/>
+    <menuitem id="menu_create_appointment" name="Create Appointment" action="action_create_appointment_wizard"
+              sequence="20"
+              parent="menu_appointment_root"/>
+</odoo>
